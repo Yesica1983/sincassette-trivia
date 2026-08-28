@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivia Millonaria | Hecho por Ana Mdq Cv</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-zinc-950 text-white min-h-screen flex flex-col font-sans">
+
+    <!-- Barra Superior con los colores -->
+    <div class="h-3 bg-gradient-to-r from-red-600 via-red-600 to-white"></div>
+
+    <!-- Header / Hero Section -->
+    <!-- Header / Hero Section Actualizado -->
+    <header id="hero-section" class="flex-grow container mx-auto px-4 py-12 text-center flex flex-col items-center justify-center">
+        <!-- Logo de Sin Cassette en blanco (para contraste) -->
+      <!-- Logo de Sin Cassette con tamaño grande y mayor brillo -->
+        <img src="Img/logo.png" 
+             alt="Logo de Sin Cassette" 
+             class="h-20 md:h-28 w-auto mb-6 brightness-0 invert drop-shadow-[0_0_15px_rgba(255,255,255,0.7)] transition-all duration-500 hover:scale-105">
+
+        <!-- Escudo de River Plate -->
+        <img src="Img/LogoRiver.png" 
+             alt="Escudo de River Plate" 
+             class="h-28 md:h-36 w-auto mb-6 transition-all duration-500 hover:scale-105 drop-shadow-[0_10px_20px_rgba(220,38,38,0.3)]">
+        
+        <!-- Etiqueta de Trivia Oficial -->
+        <span class="border border-red-500 text-red-400 text-xs uppercase font-bold tracking-widest py-1 px-3 rounded-full bg-red-950/50">Trivia Oficial</span>
+        
+        <!-- Título Principal -->
+        <h1 class="text-4xl md:text-6xl font-black mt-4 mb-3 tracking-tighter text-white">
+            ¿Cuánto sabés de <span class="text-red-600">River</span>?
+        </h1>
+        
+        <!-- Subtítulo -->
+        <p class="text-zinc-400 text-lg max-w-xl mx-auto font-light">Demostrá cuánto querés al club y tirate a la cancha a defender los colores del Más Grande.</p>
+        
+        <!-- Botón ¡Comenzar la Gloria! (¡RECUPERÓ EL ROJO!) -->
+        <button id="btn-comenzar" class="mt-8 bg-red-600 hover:bg-red-700 text-white text-lg font-extrabold py-3 px-10 rounded-full shadow-2xl shadow-red-900/50 transition-all duration-300 transform hover:scale-105 active:scale-95 cursor-pointer">
+            ¡Comenzar la Gloria!
+        </button>
+    </header>
+
+    <!-- Contenedor Principal de la Trivia (Oculto al inicio) -->
+    <main id="trivia-container" class="container mx-auto px-4 max-w-2xl my-auto hidden">
+        <div class="bg-zinc-900 p-6 md:p-8 rounded-3xl shadow-2xl border border-zinc-800">
+            <div id="pregunta-box"></div>
+        </div>
+    </main>
+
+    <!-- Footer con tu marca, Instagram y la opción de invitar un cafecito -->
+    <footer class="text-center py-8 border-t border-zinc-900 text-zinc-500 text-sm mt-12 flex flex-col items-center gap-4">
+        <div class="bg-zinc-900 border border-zinc-800 px-5 py-3 rounded-2xl flex items-center gap-3 shadow-lg">
+            <span class="text-xl">☕</span>
+            <div class="text-left">
+                <p class="text-zinc-200 font-semibold text-xs md:text-sm">¿Te gustó la app? Invitame un cafecito</p>
+                <a href="https://cafecito.app/sincassetteriver" target="_blank" class="text-red-500 hover:text-red-400 text-xs font-bold underline transition-colors">
+                    Colaborá para seguir creciendo 🚀
+                </a>
+            </div>
+        </div>
+
+        <div class="flex flex-col items-center gap-1">
+            <p class="font-medium tracking-wide">Hecho por Ana Mdq💻</p>
+            <a href="https://instagram.com/ana.mdq.ok" target="_blank" class="text-red-500 hover:text-red-400 text-xs font-bold transition-colors">
+                Instagram: @ana.mdq.ok
+            </a>
+        </div>
+    </footer>
+
+    <!-- Lógica en JavaScript con 35 preguntas -->
+    <script>
+        const bancoPreguntasOriginal = [
+            { pregunta: "¿En qué año se inauguró el Estadio Monumental?", opciones: ["1938", "1942", "1950"], correcta: 0 },
+            { pregunta: "¿Quién es el máximo goleador histórico de la era Gallardo?", opciones: ["Julián Álvarez", "Rafael Santos Borré", "Lucas Alario"], correcta: 1 },
+            { pregunta: "¿Qué número usaba el Beto Alonso en su espalda?", opciones: ["10", "8", "9"], correcta: 0 },
+            { pregunta: "¿En qué año ganó River su primera Copa Libertadores?", opciones: ["1985", "1986", "1996"], correcta: 1 },
+            { pregunta: "¿Contra qué equipo se jugó la final de la Libertadores 2018?", opciones: ["Boca Juniors", "Gremio", "Tigres"], correcta: 0 },
+            { pregunta: "¿Quién fue el técnico campeón de la Libertadores 2015?", opciones: ["Ramón Díaz", "Marcelo Gallardo", "Matías Almeyda"], correcta: 1 },
+            { pregunta: "¿En qué estadio histórico hizo de local River antes del Monumental?", opciones: ["Alvear y Tagle", "La Bombonera", "El Gasómetro"], correcta: 0 },
+            { pregunta: "¿Quién hizo el tercer gol en la final de Madrid 2018?", opciones: ["Pratto", "Quintero", "Gonzalo Martínez"], correcta: 2 },
+            { pregunta: "¿Cuántas Copas Libertadores tiene River en su historia?", opciones: ["3", "4", "5"], correcta: 1 },
+            { pregunta: "¿Qué apodo histórico identifica al club?", opciones: ["El Millonario", "El Taladro", "El Fortín"], correcta: 0 },
+            { pregunta: "¿Quién era el presidente de River en el año 1986?", opciones: ["Hugo Santilli", "Rodolfo D'Onofrio", "José María Aguilar"], correcta: 0 },
+            { pregunta: "¿En qué año se fundó el Club Atlético River Plate?", opciones: ["1901", "1905", "1910"], correcta: 1 },
+            { pregunta: "¿Contra qué equipo debutó River en el torneo que marcó su regreso a Primera en 2012?", opciones: ["Belgrano", "Instituto", "Almirante Brown"], correcta: 0 },
+            { pregunta: "¿Quién convirtió el penal agónico ante Quilmes en el Apertura 2004 para ser campeones?", opciones: ["Marcelo Salas", "Maxi López", "Ernesto Farías"], correcta: 1 },
+            { pregunta: "¿Qué arquero histórico es recordado por atajar un penal clave a Cruzeiro en la Supercopa 1991?", opciones: ["Ángel Comizzo", "Nery Pumpido", "Ubaldo Fillol"], correcta: 0 },
+            { pregunta: "¿Cuál es el máximo rival histórico de River Plate?", opciones: ["Boca Juniors", "Independiente", "San Lorenzo"], correcta: 0 },
+            { pregunta: "¿Qué jugador histórico metió los dos goles en la final de la Intercontinental 1986?", opciones: ["Enzo Francescoli", "Antonio Alzamendi", "Norberto Alonso"], correcta: 1 },
+            { pregunta: "¿En qué ciudad se disputó la histórica final de la Copa Libertadores 2018?", opciones: ["Madrid", "Tokio", "Santiago de Chile"], correcta: 0 },
+            { pregunta: "¿Qué número inmortalizó Ariel 'Burrito' Ortega en su etapa en River?", opciones: ["10", "9", "7"], correcta: 0 },
+            { pregunta: "¿En qué año descendió River a la B Nacional?", opciones: ["2010", "2011", "2012"], correcta: 1 },
+            { pregunta: "¿Quién fue el autor del gol de tiro libre a Belgrano en el Monumental en el torneo del ascenso?", opciones: ["Alejandro Domínguez", "Fernando Cavenaghi", "Carlos Sánchez"], correcta: 1 },
+            { pregunta: "¿Contra qué equipo ganó River la Recopa Sudamericana 2016?", opciones: ["San Lorenzo", "Independiente Santa Fe", "Athletico Paranaense"], correcta: 1 },
+            { pregunta: "¿Qué delantero uruguayo es considerado uno de los máximos ídolos extranjeros del club?", opciones: ["Enzo Francescoli", "Rodrigo Mora", "Carlos Sánchez"], correcta: 0 },
+            { pregunta: "¿Cómo se llama popularmente al estadio de River Plate?", opciones: ["El Monumental", "El Coloso", "La Caldera"], correcta: 0 },
+            { pregunta: "¿En qué barrio de la Ciudad de Buenos Aires está ubicado el Monumental?", opciones: ["Núñez", "La Boca", "Palermo"], correcta: 0 },
+            { pregunta: "¿Qué director técnico condujo a River a ganar la Copa Libertadores 1996?", opciones: ["Ramón Díaz", "Daniel Passarella", "Américo Gallego"], correcta: 0 },
+            { pregunta: "¿En qué año se inauguró oficialmente el estadio Monumental?", opciones: ["1938", "1942", "1950"], correcta: 0 },
+            { pregunta: "¿Contra quién jugó River la final de la Copa Intercontinental 1996?", opciones: ["Juventus", "Milán", "Real Madrid"], correcta: 0 },
+            { pregunta: "¿Cuál es el color principal de la banda que cruza la camiseta tradicional de River?", opciones: ["Rojo", "Negro", "Azul"], correcta: 0 },
+            { pregunta: "¿Qué histórico goleador argentino brilló en River en los años 40 formando parte de 'La Máquina'?", opciones: ["Ángel Labruna", "Ubaldo Fillol", "Bernabé Ferreyra"], correcta: 0 },
+            { pregunta: "¿Contra qué equipo atajó Enzo Pérez de arquero en la Copa Libertadores 2021?", opciones: ["Independiente Santa Fe", "Fluminense", "Junior de Barranquilla"], correcta: 0 },
+            { pregunta: "¿Quién convirtió el penal agónico frente a Gremio en la semifinal de la Libertadores 2018?", opciones: ["Gonzalo Martínez", "Rafael Santos Borré", "Ignacio Scocco"], correcta: 0 },
+            { pregunta: "¿Qué delantero argentino surgido de las inferiores brilló antes de ser vendido al Manchester City?", opciones: ["Julián Álvarez", "Lucas Beltrán", "Giovanni Simeone"], correcta: 0 },
+            { pregunta: "¿En qué año logró River el recordado campeonato invicto con Ramón Díaz como DT?", opciones: ["1994", "1997", "2002"], correcta: 0 },
+            { pregunta: "¿Quién fue el autor del recordado gol 'de sombrero' a Racing en el torneo local 2014?", opciones: ["Teófilo Gutiérrez", "Rodrigo Mora", "Fernando Cavenaghi"], correcta: 0 }
+        ];
+
+        let preguntasDisponibles = [];
+        let preguntasPartida = [];
+        let preguntaActual = 0;
+        let puntaje = 0;
+
+        const btnComenzar = document.getElementById('btn-comenzar');
+        btnComenzar.addEventListener('click', iniciarTrivia);
+
+        function iniciarTrivia() {
+            document.getElementById('hero-section').classList.add('hidden');
+            document.getElementById('trivia-container').classList.remove('hidden');
+            
+            preguntasDisponibles = [...bancoPreguntasOriginal].sort(() => Math.random() - 0.5);
+            reiniciarPartida();
+        }
+
+        function reiniciarPartida() {
+            if (preguntasDisponibles.length < 4) {
+                preguntasDisponibles = [...bancoPreguntasOriginal].sort(() => Math.random() - 0.5);
+            }
+
+            preguntasPartida = preguntasDisponibles.splice(0, 4);
+            preguntaActual = 0;
+            puntaje = 0;
+            mostrarPregunta();
+        }
+
+        function mostrarPregunta() {
+            const caja = document.getElementById('pregunta-box');
+            caja.innerHTML = '';
+
+            if (preguntaActual < preguntasPartida.length) {
+                const q = preguntasPartida[preguntaActual];
+                
+                let titulo = document.createElement('h2');
+                titulo.className = "text-xl font-bold mb-6 text-red-500 tracking-tight";
+                titulo.innerText = `Pregunta ${preguntaActual + 1} de ${preguntasPartida.length}`;
+                caja.appendChild(titulo);
+
+                let textoQ = document.createElement('p');
+                textoQ.className = "text-xl mb-8 text-zinc-100 font-medium leading-snug";
+                textoQ.innerText = q.pregunta;
+                caja.appendChild(textoQ);
+
+                let opcionesDiv = document.createElement('div');
+                opcionesDiv.className = "grid grid-cols-1 gap-3";
+
+                q.opciones.forEach((opcion, index) => {
+                    let btn = document.createElement('button');
+                    btn.className = "w-full text-left bg-zinc-800 hover:bg-red-600 text-base text-zinc-100 font-semibold p-4 rounded-2xl transition-all duration-200 transform hover:translate-x-1 cursor-pointer";
+                    btn.innerText = opcion;
+                    btn.addEventListener('click', () => verificarRespuesta(index));
+                    opcionesDiv.appendChild(btn);
+                });
+
+                caja.appendChild(opcionesDiv);
+            } else {
+                mostrarResultadoFinal();
+            }
+        }
+
+        function verificarRespuesta(elegida) {
+            if (elegida === preguntasPartida[preguntaActual].correcta) {
+                puntaje++;
+            }
+            preguntaActual++;
+            mostrarPregunta();
+        }
+
+        function mostrarResultadoFinal() {
+            let mensaje = "";
+            if (puntaje === preguntasPartida.length) {
+                mensaje = "¡Excelente! Nacido y criado en el Monumental, ¡un verdadero fanático del Más Grande! 🔴⚪🔥";
+            } else if (puntaje >= 2) {
+                mensaje = "¡Bien ahí! Estuviste cerquita, hay revancha 🎯";
+            } else {
+                mensaje = "¡A repasar la historia y volver con todo! ⚽💪";
+            }
+
+            const caja = document.getElementById('pregunta-box');
+            caja.innerHTML = `
+                <div class="text-center py-8">
+                    <h2 class="text-3xl font-black mb-4 text-white tracking-tighter">¡Trivia Finalizada!</h2>
+                    <p class="text-xl font-semibold text-red-500 mb-3">Acertaste ${puntaje} de ${preguntasPartida.length}</p>
+                    <p class="text-zinc-300 text-base mb-8 max-w-md mx-auto font-light">${mensaje}</p>
+                    <button id="btn-reintentar" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full transition-all transform hover:scale-105 active:scale-95 cursor-pointer">
+                        Jugar de nuevo (Preguntas nuevas)
+                    </button>
+                </div>
+            `;
+
+            document.getElementById('btn-reintentar').addEventListener('click', reiniciarPartida);
+        }
+    </script>
+</body>
+</html>
